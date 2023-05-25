@@ -1,7 +1,12 @@
 const express = require('express');
+const cookieParser = require('cookie-parser'); //setting up manual cookie parser
 const app = express();
 const port = 8000;
 const expressLayouts = require('express-ejs-layouts'); //requrining ejs layouts for partials and layouts
+const db = require('./config/mongoose');
+
+app.use(express.urlencoded()); //to read post requests where data is sent through url
+app.use(cookieParser());
 
 app.use(express.static('./assets'));
 
@@ -11,7 +16,7 @@ app.use(expressLayouts); //saying out app to use expressLayouts
 app.set('layout extractStyles', true); 
 app.set('layout extractScripts', true);
 
-app.use('/', require('./routes')); //setting up routess
+app.use('/', require('./routes/users')); //setting up routess
 
 app.set('view engine', 'ejs'); //setting up view engine
 app.set('views', './views');
