@@ -2,6 +2,9 @@ const User = require('../models/user');
 
 //http://localhost:8000/sign_in
 module.exports.signUp= function(req,res){
+    if(req.isAuthenticated()){
+        return res.redirect('/profile');
+    }
     return res.render('user_sign_up', {
         title: 'User Sign-Up'
     });
@@ -9,6 +12,9 @@ module.exports.signUp= function(req,res){
 
 //http://localhost:8000/sign_up
 module.exports.signIn= function(req,res){
+    if(req.isAuthenticated()){
+        return res.redirect('/profile');
+    }
     return res.render('user_sign_in', {
         title: 'User Sign-In'
     });
@@ -42,52 +48,59 @@ module.exports.create = function(req, res){
 }
 
 //http://localhost:8000/users/create-session
-module.exports.createSession = function(req, res){
+//this is for manual authetication
+// module.exports.createSession = function(req, res){
 
-    User.findOne({email: req.body.email})
-    .then(user => {
-        if(!user){
-            return res.redirect('back');
-        }else{
-            if(user.password != req.body.password){
-                return res.redirect('back');
-            }
-            res.cookie('user_id', user.id);
-            return res.redirect('/profile');
-        }
-    })
-    .catch(err =>{
-        console.log('Error(system) in finding the user in signing in. Please try again', err);
-        return;
-    });
-    
+//     User.findOne({email: req.body.email})
+//     .then(user => {
+//         if(!user){
+//             return res.redirect('back');
+//         }else{
+//             if(user.password != req.body.password){
+//                 return res.redirect('back');
+//             }
+//             res.cookie('user_id', user.id);
+//             return res.redirect('/profile');
+//         }
+//     })
+//     .catch(err =>{
+//         console.log('Error(system) in finding the user in signing in. Please try again', err);
+//         return;
+//     });   
+// }
+
+//http://localhost:8000/users/create-session
+//assuming user has signed in
+module.exports.createSession = function(req, res){
+    return res.redirect('/');   
 }
 
 //http://localhost:8000/profile
-module.exports.profile = function(req, res){
-    if(req.cookies.user_id){
-        // User.findById(req.cookies.user_id, function(err, user){
-        //     if(user){
-        //        return res.render('user_profile', {
-        //             title: 'User Profile',
-        //             user: user
-        //         });
-        //     }
-        // });
+//this was used for manual auth
+// module.exports.profile = function(req, res){
+//     if(req.cookie.user_id){ 
+//         User.findById(req.cookies.user_id)
+//         .then( user => {
+//             return res.render('user_profile', {
+//                 title: 'User Profile',
+//                 user: user
+//             });
+//         })
+//         .catch(err => {
+//             console.log('error(system) in fething the user id; pls try again');
+//         } );
+//     }else{
+//          return res.redirect('/sign_in');       
+//     }
+// }
 
-        User.findById(req.cookies.user_id)
-        .then( user => {
-            return res.render('user_profile', {
-                title: 'User Profile',
-                user: user
-            });
-        })
-        .catch(err => {
-            console.log('error(system) in fething the user id; pls try again');
-        } );
-    }else{
-         return res.redirect('/sign_in');       
-    }
+
+//http://localhost:8000/profile
+module.exports.profile = function(req, res){
+    return res.render('user_profile', {
+        title: 'User Profileee',
+    
+    })
 }
 
 
