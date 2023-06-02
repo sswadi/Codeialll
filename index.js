@@ -28,6 +28,8 @@ app.set('views', './views');
 
 //a middleware that takes in the session cookie and encrytps it
 app.use(session({
+
+    //this piece of code is used for encrytpitng the session cookie when serializeUser is called(in passport-local-strategy)
     name: 'codeialll',
     //todo - change the secret key before deployment before production
     secret: 'randomsecretkey',
@@ -36,9 +38,10 @@ app.use(session({
     cookie: {
         maxAge: (1000*60*100) //this is in milliseconds which sums upto be the no. minutes => 1 sec = 1000 ms | 1 min = 60 sec | 100 = minutes
     },
+    //mongoStore is used to store the session cookie in the db 
     store: MongoStore.create(
         {
-            mongoUrl: 'mongodb://localhost/Codeialll',
+            mongoUrl: 'mongodb://localhost/Codeialll    ',
             autoRemove: 'disabled'
         },
         function(err){
@@ -46,6 +49,13 @@ app.use(session({
         }
     )
 }));
+
+// The app.use(session({ ... })) middleware is responsible for managing the session data in the application. 
+// It enables the server to store and retrieve session data for each user. 
+// It configures various session options such as the session name, secret key for encryption, 
+// cookie settings, and the session store (in this case, MongoDB using connect-mongo). 
+// The session middleware is necessary to create and maintain a session for each user and store session-related data securely.
+
 app.use(passport.initialize()); //tells app to use initialise method in passport
 app.use(passport.session()); //tells app to use session method in passport
 

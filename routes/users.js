@@ -7,6 +7,8 @@ const homeController = require('../controllers/home_controller');
 
 router.get('/', homeController.home);
 
+router.get('/profile', passport.checkAuthetication , usersController.profile);
+
 router.get('/sign_up', usersController.signUp);
 router.get('/sign_in', usersController.signIn);
 
@@ -19,6 +21,8 @@ router.post('/create-session', passport.authenticate(
     {failureRedirect: '/sign_in'}
 ) , usersController.createSession);
 
-router.get('/profile', passport.checkAuthetication ,usersController.profile);
+router.get('/sign_out', usersController.destroySession);
+
+
 
 module.exports = router;

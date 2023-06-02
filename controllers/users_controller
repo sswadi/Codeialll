@@ -20,7 +20,7 @@ module.exports.signIn= function(req,res){
     });
 }
 
-//http://localhost:8000/users/create
+//http://localhost:8000/create
 module.exports.create = function(req, res){
     if(req.body.password != req.body.confirm_password){
         return res.redirect('back');
@@ -47,6 +47,47 @@ module.exports.create = function(req, res){
     });
 }
 
+
+//http://localhost:8000/create-session
+//assuming user has signed in
+module.exports.createSession = function(req, res){
+    return res.redirect('/');   
+}
+
+
+//http://localhost:8000/profile
+module.exports.profile = function(req, res){
+    // console.log(req.user);
+    return res.render('user_profile', {
+        title: 'User Profileee',
+        email: req.user.email
+        // user: req.User
+    })
+}
+
+module.exports.destroySession = function(req, res){
+
+    req.logout(function(err) {
+        if (err) { 
+            return next(err); 
+        }
+        return res.redirect('/');
+    });
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+//--------------------------------------------------------------------------------
 //http://localhost:8000/users/create-session
 //this is for manual authetication
 // module.exports.createSession = function(req, res){
@@ -69,11 +110,6 @@ module.exports.create = function(req, res){
 //     });   
 // }
 
-//http://localhost:8000/users/create-session
-//assuming user has signed in
-module.exports.createSession = function(req, res){
-    return res.redirect('/');   
-}
 
 //http://localhost:8000/profile
 //this was used for manual auth
@@ -93,31 +129,6 @@ module.exports.createSession = function(req, res){
 //          return res.redirect('/sign_in');       
 //     }
 // }
-
-
-//http://localhost:8000/profile
-module.exports.profile = function(req, res){
-    return res.render('user_profile', {
-        title: 'User Profileee',
-    
-    })
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 //http://localhost:8000/users/create
