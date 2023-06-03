@@ -11,6 +11,17 @@ const passportLocal = require('./config/passport-local-strategy'); //an added mo
 
 const MongoStore= require('connect-mongo'); //used to store the session cookie in the db so that everytime the server refreshes the user need nt sign in again and again
 
+// SASS middleware requiring
+const sassMiddleware = require('node-sass-middleware');
+
+app.use(sassMiddleware({
+    src: './assets/scss',
+    dest: './assets/css',
+    debug: true,
+    outputStyle: 'extended',
+    prefix: '/css'
+}));
+
 app.use(express.urlencoded()); //to read post requests where data is sent through url
 app.use(cookieParser());
 
