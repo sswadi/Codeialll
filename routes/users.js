@@ -4,6 +4,7 @@ const passport = require('passport');
 
 const usersController = require('../controllers/users_controller');
 const homeController = require('../controllers/home_controller');
+const postsController = require('../controllers/posts_controller');
 
 router.get('/', homeController.home);
 
@@ -23,6 +24,6 @@ router.post('/create-session', passport.authenticate(
 
 router.get('/sign_out', usersController.destroySession);
 
-
+router.post('/createPost', postsController.createPost);
 
 module.exports = router;

@@ -1,5 +1,12 @@
 const User = require('../models/user');
 
+//http://localhost:8000/profile
+module.exports.profile = function(req, res){
+    return res.render('user_profile', {
+        title: 'User Profileee',
+    })
+}
+
 //http://localhost:8000/sign_in
 module.exports.signUp= function(req,res){
     if(req.isAuthenticated()){
@@ -25,10 +32,13 @@ module.exports.create = function(req, res){
     if(req.body.password != req.body.confirm_password){
         return res.redirect('back');
     }
+    console.log("****This is users_controllers : create**********");
+    console.log(req.user);
     User.findOne({email: req.body.email})
     .then((user)=> {
         if(!user){
             return User.create(req.body)
+            // User.create(req.body)
             .then(newUser => {
                 return res.redirect('/sign_in');
             })
@@ -47,22 +57,12 @@ module.exports.create = function(req, res){
     });
 }
 
-
 //http://localhost:8000/create-session
 //assuming user has signed in
 module.exports.createSession = function(req, res){
+    console.log("****This is users_controllers : create-session**********");
+    console.log(req.user);
     return res.redirect('/');   
-}
-
-
-//http://localhost:8000/profile
-module.exports.profile = function(req, res){
-    // console.log(req.user);
-    return res.render('user_profile', {
-        title: 'User Profileee',
-        email: req.user.email
-        // user: req.User
-    })
 }
 
 module.exports.destroySession = function(req, res){
@@ -74,6 +74,9 @@ module.exports.destroySession = function(req, res){
         return res.redirect('/');
     });
 }
+
+
+
 
 
 

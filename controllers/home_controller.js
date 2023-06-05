@@ -1,5 +1,17 @@
+const Post = require('../models/post');
+
 module.exports.home = function(req,res){
-    return res.render('home', {
-        title: 'home'
-    });
+
+    Post.find({}).populate('user')
+    .then((posts) => {
+        return res.render('home', {
+            title: "Home",
+            posts: posts
+        });
+    })
+    .catch((err) => {
+        // Send an appropriate response to the client
+        return res.status(500).send("An error occurred");
+    })
+    
 }

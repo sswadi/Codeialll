@@ -12,15 +12,15 @@ const passportLocal = require('./config/passport-local-strategy'); //an added mo
 const MongoStore= require('connect-mongo'); //used to store the session cookie in the db so that everytime the server refreshes the user need nt sign in again and again
 
 // SASS middleware requiring
-const sassMiddleware = require('node-sass-middleware');
+// const sassMiddleware = require('node-sass-middleware');
 
-app.use(sassMiddleware({
-    src: './assets/scss',
-    dest: './assets/css',
-    debug: true,
-    outputStyle: 'extended',
-    prefix: '/css'
-}));
+// app.use(sassMiddleware({
+//     src: './assets/scss',
+//     dest: './assets/css',
+//     debug: true,
+//     outputStyle: 'extended',
+//     prefix: '/css'
+// }));
 
 app.use(express.urlencoded()); //to read post requests where data is sent through url
 app.use(cookieParser());
@@ -39,7 +39,6 @@ app.set('views', './views');
 
 //a middleware that takes in the session cookie and encrytps it
 app.use(session({
-
     //this piece of code is used for encrytpitng the session cookie when serializeUser is called(in passport-local-strategy)
     name: 'codeialll',
     //todo - change the secret key before deployment before production
@@ -52,7 +51,7 @@ app.use(session({
     //mongoStore is used to store the session cookie in the db 
     store: MongoStore.create(
         {
-            mongoUrl: 'mongodb://localhost/Codeialll    ',
+            mongoUrl: 'mongodb://localhost/Codeialll',
             autoRemove: 'disabled'
         },
         function(err){
@@ -70,9 +69,9 @@ app.use(session({
 app.use(passport.initialize()); //tells app to use initialise method in passport
 app.use(passport.session()); //tells app to use session method in passport
 
-app.use(passport.setAutheticatedUser);//setting the current user usage
-
 app.use('/', require('./routes/users')); //setting up routess
+
+app.use(passport.setAutheticatedUser);//setting the current user usage
 
 
 app.listen(port, function(err){
