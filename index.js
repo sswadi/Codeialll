@@ -46,10 +46,11 @@ app.use(session({
     saveUninitialized: false, //when the user data/identity is not established we would not require to store that data, hence it is set to false 
     resave: false, //resave prevents the user data present in the session to cookie to read-write again if there is no change in the data
     cookie: {
-        maxAge: (1000*60*100) //this is in milliseconds which sums upto be the no. minutes => 1 sec = 1000 ms | 1 min = 60 sec | 100 = minutes
+        maxAge: (1000 * 60 * 100) //this is in milliseconds which sums upto be the no. minutes => 1 sec = 1000 ms | 1 min = 60 sec | 100 = minutes
     },
     //mongoStore is used to store the session cookie in the db 
     store: MongoStore.create(
+        
         {
             mongoUrl: 'mongodb://localhost/Codeialll',
             autoRemove: 'disabled'
@@ -69,10 +70,9 @@ app.use(session({
 app.use(passport.initialize()); //tells app to use initialise method in passport
 app.use(passport.session()); //tells app to use session method in passport
 
-app.use('/', require('./routes/users')); //setting up routess
-
 app.use(passport.setAutheticatedUser);//setting the current user usage
 
+app.use('/', require('./routes/users')); //setting up routess
 
 app.listen(port, function(err){
     if(err){

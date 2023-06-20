@@ -32,8 +32,6 @@ module.exports.create = function(req, res){
     if(req.body.password != req.body.confirm_password){
         return res.redirect('back');
     }
-    console.log("****This is users_controllers : create**********");
-    console.log(req.user);
     User.findOne({email: req.body.email})
     .then((user)=> {
         if(!user){
@@ -60,8 +58,6 @@ module.exports.create = function(req, res){
 //http://localhost:8000/create-session
 //assuming user has signed in
 module.exports.createSession = function(req, res){
-    console.log("****This is users_controllers : create-session**********");
-    console.log(req.user);
     return res.redirect('/');   
 }
 
