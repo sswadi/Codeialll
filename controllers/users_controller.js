@@ -10,7 +10,7 @@ module.exports.profile = function(req, res){
 //http://localhost:8000/sign_in
 module.exports.signUp= function(req,res){
     if(req.isAuthenticated()){
-        return res.redirect('/profile');
+        return res.redirect('/profile'); //not sure if you need isAuth check here?? Even in signIn actually!
     }
     return res.render('user_sign_up', {
         title: 'User Sign-Up'
@@ -29,6 +29,7 @@ module.exports.signIn= function(req,res){
 
 //http://localhost:8000/create
 module.exports.create = function(req, res){
+    
     if(req.body.password != req.body.confirm_password){
         return res.redirect('back');
     }
@@ -36,7 +37,6 @@ module.exports.create = function(req, res){
     .then((user)=> {
         if(!user){
             return User.create(req.body)
-            // User.create(req.body)
             .then(newUser => {
                 return res.redirect('/sign_in');
             })
@@ -46,8 +46,8 @@ module.exports.create = function(req, res){
             });
         }else{
             // return res.redirect('back');
-            console.log('User already present; redirecting to Sign-Ins');
-            return res.redirect('/sign_in');
+            console.log('User already present; redirecting to Sign-Up. Please try again buddy!');
+            return res.redirect('/sign_up');
         }
     }).catch(error => {
         console.log('Error(system) in finding the user in signing up. Please try again', error);

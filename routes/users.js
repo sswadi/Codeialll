@@ -5,6 +5,7 @@ const passport = require('passport');
 const usersController = require('../controllers/users_controller');
 const homeController = require('../controllers/home_controller');
 const postsController = require('../controllers/posts_controller');
+const commentsController = require('../controllers/comments_controller');
 
 router.get('/', homeController.home);
 
@@ -13,7 +14,8 @@ router.get('/profile', passport.checkAuthetication , usersController.profile);
 router.get('/sign_up', usersController.signUp);
 router.get('/sign_in', usersController.signIn);
 
-router.post('/create', usersController.create);
+// router.post('/create', passport.checkAuthetication ,usersController.create); //delete it after reviewing why you had put passport.checkauth here???
+router.post('/create',usersController.create);
 // router.post('/create-session', usersController.createSession); //this is for manual authetication
 
 //use passport as a middleware to autheticate
@@ -25,5 +27,7 @@ router.post('/create-session', passport.authenticate(
 router.get('/sign_out', usersController.destroySession);
 
 router.post('/createPost', postsController.createPost);
+
+router.post('/comments/create', passport.checkAuthetication, commentsController.create);
 
 module.exports = router;

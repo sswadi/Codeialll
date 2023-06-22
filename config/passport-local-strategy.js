@@ -55,7 +55,7 @@ passport.deserializeUser(async function(id, done){
 passport.checkAuthetication = function(req, res, next){
     //user is signed-in
     if(req.isAuthenticated()){
-
+        // console.log("****** This is checkAuthentication(in passport-local-stratey)");             //DELETE THIS LINE
         return next();
     }
     //if user is not signed-in
@@ -68,6 +68,7 @@ passport.checkAuthetication = function(req, res, next){
 passport.setAutheticatedUser = function(req, res, next){
     if(req.isAuthenticated()){
         //req.user contains the current signed in user from the session cookies and we send it to the locals for views
+        // console.log("## This is setAuthentication(in passport-local-stratgy)");                 //DELETE THIS LINE
         res.locals.user = req.user;
     }
     next();
