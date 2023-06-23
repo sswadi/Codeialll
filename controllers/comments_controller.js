@@ -25,3 +25,84 @@ module.exports.create = function(req, res){
     });
 }
 
+
+module.exports.destroy = function(req, res){
+
+    Comment.findById(req.params.id)
+    .then((comment) => {
+
+        if(comment.user.equals(req.user._id)){
+            let postId = comment.post;
+            comment.deleteOne();
+            Post.findByIdAndUpdate(postId, { $pull: { comments: req.params.id }})
+            .then((post) => {
+                return res.redirect('back');
+            });
+        }
+        else{
+            return res.redirect('back');
+        }
+    })
+    .catch((err) => {
+        console.log('error(sys) in deleting the comment in the post');
+
+    });
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// module.exports.destroy = function(req, res){
+
+//     const commentId = req.body._id;
+
+//     Post.findById(commentId)
+//     .then((comment) => {
+//         if(comment){
+
+//             Comment.deleteOne(commentId);
+//             Post.comment.deleteOne(commentId);
+
+//         }else{
+//             console.log('Could not find the post. Try again!');
+//             return res.redirect('back');
+//         }
+//     })
+//     .catch((err) => {
+
+//     });
+// }
+

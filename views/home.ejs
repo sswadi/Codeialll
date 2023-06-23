@@ -5,7 +5,7 @@
 
     <% if(locals.user){ %> 
     <form action="/createPost" id="new-post-form" method="post">
-        <textarea name="content" cols="30" rows="3" placeholder="Type here.."></textarea>
+        <textarea name="content" cols="30" rows="3" placeholder="Type here.." required></textarea>
         <input type="submit" value="Post">
     </form>
     <% } %>
@@ -16,6 +16,11 @@
                 
                 <li>
                     <p>
+                        <% if(locals.user && locals.user.id == post.user.id){ %>
+                            <small>
+                                <a href="/destroy/<%= post.id %>">X</a>
+                            </small>
+                        <% } %>
                         POST:  <%= post.content %>
                         <br>
                         <small>
@@ -34,10 +39,15 @@
                             <ul id="post-comments-<%= post._id %>">
                                 <% for(comment of post.comment){ %>
                                     <p>
-                                        <%= comment.content %>
+                                        <% if(locals.user && locals.user.id == comment.user.id){ %>
+                                            <small>
+                                                <a href="/comments/destroy/<%= comment.id %>">X</a>
+                                            </small>
+                                        <% } %>
+                                        COMMENT: <%= comment.content %>
                                         <br>
                                         <small>
-                                            <%= comment.user.name %>
+                                           NAME: <%= comment.user.name %>
                                         </small>
                                     </p>
                                 <% } %>

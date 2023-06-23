@@ -30,4 +30,8 @@ router.post('/createPost', postsController.createPost);
 
 router.post('/comments/create', passport.checkAuthetication, commentsController.create);
 
+router.get('/destroy/:id', passport.checkAuthetication, postsController.destroy );
+
+router.get('/comments/destroy/:id', passport.checkAuthetication, commentsController.destroy );
+
 module.exports = router;
