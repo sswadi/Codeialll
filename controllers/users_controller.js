@@ -1,10 +1,33 @@
 const User = require('../models/user');
 
-//http://localhost:8000/profile
+//http://localhost:8000/profile/id:
 module.exports.profile = function(req, res){
-    return res.render('user_profile', {
-        title: 'User Profileee',
+    User.findById(req.params.id)
+    .then(user => {
+        return res.render('user_profile', {
+            title: 'User Profileee',
+            profile_user: user,
+        });
     })
+    .catch(err => { 
+        console.log("error(sys) in find the user");
+    }); 
+}
+
+//http://localhost:8000/users/update/:id
+module.exports.update = function(req, res){
+    if(req.user.id == req.params.id){
+        User.findByIdAndUpdate(req.params.id, req.body)
+        .then((user) => {
+            return res.redirect('back');
+        })
+        .catch( (err) => {
+            console.log('Error(sys) in updating the user details');
+        });
+    }else{
+        return res.status(401).send('Unauthorized');
+    }
+
 }
 
 //http://localhost:8000/sign_in

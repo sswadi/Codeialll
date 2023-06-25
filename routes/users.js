@@ -9,7 +9,8 @@ const commentsController = require('../controllers/comments_controller');
 
 router.get('/', homeController.home);
 
-router.get('/profile', passport.checkAuthetication , usersController.profile);
+router.get('/profile/:id', passport.checkAuthetication , usersController.profile);
+router.post('/users/update/:id', passport.checkAuthetication , usersController.update);
 
 router.get('/sign_up', usersController.signUp);
 router.get('/sign_in', usersController.signIn);
