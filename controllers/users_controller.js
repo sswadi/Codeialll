@@ -81,6 +81,7 @@ module.exports.create = function(req, res){
 //http://localhost:8000/create-session
 //assuming user has signed in
 module.exports.createSession = function(req, res){
+    req.flash('success', 'Logged in successfully');
     return res.redirect('/');   
 }
 
@@ -90,13 +91,17 @@ module.exports.destroySession = function(req, res){
         if (err) { 
             return next(err); 
         }
+        req.flash('success', 'Logged out successfully');
         return res.redirect('/');
     });
 }
 
 
-
-
+// Flash messages are often set during the processing of a request, 
+// and their purpose is to provide feedback or notifications to the user on subsequent requests.
+// By using req.flash, the flash message is stored in a temporary session storage associated with the client's request. 
+// The req.flash function adds the flash message to the session data, 
+// which can be accessed later when rendering views or handling subsequent requests.
 
 
 

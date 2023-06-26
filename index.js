@@ -13,6 +13,9 @@ const MongoStore= require('connect-mongo'); //used to store the session cookie i
 
 // SASS middleware requiring
 const sassMiddleware = require('node-sass-middleware');
+//setting up the flash middleware for custom msgs(pop ups)
+const flash = require('connect-flash'); 
+const customMware = require('./config/middleware'); //custom middleware created by us to tranfer the req msg to res 
 
 app.use(sassMiddleware({
     src: './assets/scss',
@@ -71,6 +74,9 @@ app.use(passport.initialize()); //tells app to use initialise method in passport
 app.use(passport.session()); //tells app to use session method in passport
 
 app.use(passport.setAutheticatedUser);//setting the current user usage
+
+app.use(flash());
+app.use(customMware.setFlash);
 
 app.use('/', require('./routes/users')); //setting up routess
 

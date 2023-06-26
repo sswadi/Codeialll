@@ -6,18 +6,19 @@ const User = require('../models/user');
 //authetication using passport
 passport.use(new LocalStrategy({
         usernameField: 'email',
+        passReqToCallback: true
     },
-    async function(email, password, done) {
+    async function(req, email, password, done) {
         try {
           const user = await User.findOne({ email: email }).exec();
           if (!user || user.password !== password) {
-            console.log('Invalid username/password');
+            req.flash('error', 'Invalid username/password');
             return done(null, false);
           }
           return done(null, user);  //here when the user is found, this function returns the user but where? it return to serialiseUser function (below)
 
         } catch (err) {
-          console.log('Error(system) in finding the user ---> passport');
+            req.flash('error', err);
           return done(err);
         }
       }

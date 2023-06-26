@@ -3,30 +3,29 @@ const User = require('../models/user');
 
 module.exports.home = async function(req,res){
 
-    Post.find({}).populate('user')
-    .populate({
-        path: 'comment',
-        populate: {
-            path: 'user',
-        }
-    })
-    .then((posts) => {
+    try{
+        let posts = await Post.find({})
+        .sort('-createdAt')
+        .populate('user')
+        .populate({
+            path: 'comment',
+            populate: {
+                path: 'user',
+            }
+    });
 
-        User.find({})
-        .then(users => {
+    let users = await User.find({})
 
-            return res.render('home', {
-                title: "Home",
-                posts: posts,
-                all_users: users
-            });
+    return res.render('home', {
+        title: "Home",
+        posts: posts,
+        all_users: users
+    });
 
-        })
-       
-    })
-    .catch((err) => {
+    }catch(err){
         // Send an appropriate response to the client
         return res.status(500).send("An error occurred");
-    })
+    }
+
     
 }

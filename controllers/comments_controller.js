@@ -1,52 +1,48 @@
 const Comment = require('../models/comment');
 const Post = require('../models/post');
 
-module.exports.create = function(req, res){
+module.exports.create =async function(req, res){
 
-    Post.findById(req.body.post)
-    .then(post => {
+    try{
+        let post = await Post.findById(req.body.post);
+    
         if(post){     //post here is the result of the query ie. the document or record that was found in the Db
-            Comment.create({
+            let comment = await Comment.create({
                 content: req.body.content,
                 user: req.user._id,
                 post: req.body.post,
-            })
-            .then(comment => {
-                post.comment.push(comment);
-                post.save();
-                res.redirect('/');
-            }).catch(err => { 
-                console.log('error(sys) in adding comment to the post');
             });
+
+            post.comment.push(comment);
+            post.save();
+            res.redirect('/');
+
         }
 
-    }).catch(error => {
+    }catch(error) {
         console.log("Error(system) in finding the post in the Post schema");
-    });
+    };
 }
 
 
-module.exports.destroy = function(req, res){
+module.exports.destroy = async function(req, res){
 
-    Comment.findById(req.params.id)
-    .then((comment) => {
+    try{
 
+        let comment = await Comment.findById(req.params.id);
+    
         if(comment.user.equals(req.user._id)){
             let postId = comment.post;
             comment.deleteOne();
-            Post.findByIdAndUpdate(postId, { $pull: { comments: req.params.id }})
-            .then((post) => {
-                return res.redirect('back');
-            });
-        }
-        else{
+            let post = await Post.findByIdAndUpdate(postId, { $pull: { comments: req.params.id }});
+            return res.redirect('back');
+        }else{
             return res.redirect('back');
         }
-    })
-    .catch((err) => {
-        console.log('error(sys) in deleting the comment in the post');
 
-    });
+    }catch(err){
+        console.log('error(sys) in deleting the comment in the post');
+    };
 }
 
 
