@@ -15,7 +15,7 @@ module.exports.createPost = async function(req, res){
                 data: {
                     post: post
                 },
-                meesage: "Post Created!!"
+                message: "Post Created!!"
             });
         }
 
@@ -40,6 +40,15 @@ module.exports.destroy = async function(req, res){
             post.deleteOne();
 
             await Comment.deleteMany({post: req.params.id});
+
+            if(req.xhr){  //as the type of AJAX req is XMLHTTP Req(ie. XHR)
+                return res.status(200).json({
+                    data: {
+                        post_id: req.params.id,
+                    },
+                    message: "Post Deleted Successfully!!"
+                });
+            }
 
             req.flash('success', 'Post & associated comments deleted!');
             return res.redirect('back');

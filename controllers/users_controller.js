@@ -15,16 +15,36 @@ module.exports.profile = function(req, res){
 }
 
 //http://localhost:8000/users/update/:id
-module.exports.update = function(req, res){
+module.exports.update = async function(req, res){
+    // if(req.user.id == req.params.id){
+    //     User.findByIdAndUpdate(req.params.id, req.body)
+    //     .then((user) => {
+    //         return res.redirect('back');
+    //     })
+    //     .catch( (err) => {
+    //         console.log('Error(sys) in updating the user details');
+    //     });
+    // }else{
+    //     return res.status(401).send('Unauthorized');
+    // }
+
     if(req.user.id == req.params.id){
-        User.findByIdAndUpdate(req.params.id, req.body)
-        .then((user) => {
+
+        try{
+            let user = await User.findById(req.params.id);
+            User.uploadedAvatar(req,res, function(err){
+                
+            });
+
+        }catch(err){
+
+            req.flash('error', err);
             return res.redirect('back');
-        })
-        .catch( (err) => {
-            console.log('Error(sys) in updating the user details');
-        });
+             
+        }
+        
     }else{
+        req.flash('error', 'Unauthorized!');
         return res.status(401).send('Unauthorized');
     }
 
