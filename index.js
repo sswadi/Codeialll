@@ -29,6 +29,8 @@ app.use(express.urlencoded()); //to read post requests where data is sent throug
 app.use(cookieParser());
 
 app.use(express.static('./assets'));
+//mutler: make the uploads path available to the browser
+app.use('/uploads', express.static(__dirname + '/uploads'));
 
 app.use(expressLayouts); //saying out app to use expressLayouts 
 
