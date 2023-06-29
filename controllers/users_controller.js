@@ -95,7 +95,7 @@ module.exports.create = function(req, res){
             });
         }else{
             // return res.redirect('back');
-            console.log('User already present; redirecting to Sign-Up. Please try again buddy!');
+            console.log('User already present; redirecting to Sign-Up. Please try again buddy(with diff credentials)!');
             return res.redirect('/sign_up');
         }
     }).catch(error => {

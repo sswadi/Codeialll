@@ -8,6 +8,7 @@ const db = require('./config/mongoose');
 const session = require('express-session'); // express-session is a lib used to encrypt user id into cookies
 const passport = require('passport'); //a middleware and lib used for authetication purposes
 const passportLocal = require('./config/passport-local-strategy'); //an added module(strategy) which serves specific purpose in our app
+const passportJWT = require('./config/passport-jwt-strategy');
 
 const MongoStore= require('connect-mongo'); //used to store the session cookie in the db so that everytime the server refreshes the user need nt sign in again and again
 

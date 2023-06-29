@@ -35,4 +35,7 @@ router.get('/destroy/:id', passport.checkAuthetication, postsController.destroy 
 
 router.get('/comments/destroy/:id', passport.checkAuthetication, commentsController.destroy );
 
+//setting up routes for api
+router.use('/api', require('./api'));
+
 module.exports = router;
