@@ -8,7 +8,7 @@ const User = require('../models/user');
 
 // Set up options for JWTStrategy
 let opts = {
-    jwtFromRequest : ExtractJWT.fromAuthHeaderAsBearerToken,
+    jwtFromRequest : ExtractJWT.fromAuthHeaderAsBearerToken(),
     secretOrKey: 'codeial',
 }
 

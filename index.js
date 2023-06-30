@@ -13,18 +13,18 @@ const passportJWT = require('./config/passport-jwt-strategy');
 const MongoStore= require('connect-mongo'); //used to store the session cookie in the db so that everytime the server refreshes the user need nt sign in again and again
 
 // SASS middleware requiring
-const sassMiddleware = require('node-sass-middleware');
+// const sassMiddleware = require('node-sass-middleware');
 //setting up the flash middleware for custom msgs(pop ups)
 const flash = require('connect-flash'); 
 const customMware = require('./config/middleware'); //custom middleware created by us to tranfer the req msg to res 
 
-app.use(sassMiddleware({
-    src: './assets/scss',
-    dest: './assets/css',
-    debug: true,
-    outputStyle: 'extended',
-    prefix: '/css'
-}));
+// app.use(sassMiddleware({
+//     src: './assets/scss',
+//     dest: './assets/css',
+//     debug: true,
+//     outputStyle: 'extended',
+//     prefix: '/css'
+// }));
 
 app.use(express.urlencoded()); //to read post requests where data is sent through url
 app.use(cookieParser());

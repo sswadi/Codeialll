@@ -28,7 +28,7 @@ module.exports.destroy = async function(req, res){
         let post = await Post.findById(req.params.id);
 
         //instead of ._id here we use id as mongoose automatically converts ._id to id making it easy to compare string==string; .id means converting the obeject to string
-        // if(post.user.equals(req.user.id)){
+        if(post.user.equals(req.user.id)){
             post.deleteOne();
 
             await Comment.deleteMany({post: req.params.id});
@@ -37,11 +37,12 @@ module.exports.destroy = async function(req, res){
                 message: "Post and associated comment deleted successfully!"
             });
 
-        // }else{
+        }else{
 
-            // req.flash('error', 'You cannot delete this post!');
-            // return res.redirect('back');
-        // }
+            return res.json(401, {
+                message: "You cannot delete this post!"
+            });
+        }
 
     }catch(err){
 
