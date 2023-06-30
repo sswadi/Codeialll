@@ -127,3 +127,49 @@ input[type="submit"]:hover {
 .small-link:hover {
   text-decoration: underline;
 }
+
+
+
+#user-friends {
+  margin-top: 20px;
+}
+
+/* #user-friends h4 {
+  color: #333;
+  font-size: 20px;
+  margin-bottom: 10px;
+} */
+
+#user-friends h4 {
+  color: #b86009;
+  font-size: 24px;
+  /* font-weight: bold; */
+  letter-spacing: 2px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+
+#user-friends ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#user-friends li {
+  margin-bottom: 10px;
+}
+
+#user-friends a {
+  color: #333;
+  text-decoration: none;
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 4px;
+  background-color: #f2f2f2;
+  transition: background-color 0.3s ease;
+}
+
+#user-friends a:hover {
+  background-color: #e0e0e0;
+}
+

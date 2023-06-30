@@ -10,7 +10,7 @@ body {
   h1 {
     color: #333;
     font-size: 24px;
-    margin-bottom: 20px;
+    margin-bottom: 2a0px;
   }
   
   form {
@@ -41,4 +41,23 @@ body {
   input[type="submit"]:hover {
     background-color: #555;
   }
+
+
+  p {
+    margin-top: 20px;
+    text-align: center;
+  }
   
+  p>a {
+    font-size: small;
+    background-color: #d85555;
+    color: #fff;
+    text-decoration: none;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 5px; 
+  }
+  
+  a:hover {
+    text-decoration: underline;
+  }

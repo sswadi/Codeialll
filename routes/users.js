@@ -38,4 +38,8 @@ router.get('/comments/destroy/:id', passport.checkAuthetication, commentsControl
 //setting up routes for api
 router.use('/api', require('./api'));
 
+
+router.get('/auth/google', passport.authenticate('google', {scope: ['profile', 'email']}));
+router.get('/auth/google/callback', passport.authenticate('google', {failureRedirect: '/sign_in'}), usersController.createSession);
+
 module.exports = router;

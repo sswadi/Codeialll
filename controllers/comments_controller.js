@@ -1,5 +1,6 @@
 const Comment = require('../models/comment');
 const Post = require('../models/post');
+const commentsMailer = require('../mailers/comments_mailer');
 
 module.exports.create =async function(req, res){
 
@@ -15,13 +16,34 @@ module.exports.create =async function(req, res){
 
             post.comment.push(comment);
             post.save();
+
+            comment = await comment.populate('user', 'name email').exec();
+            commentsMailer.newComment(comment);
+
+            if(req.xhr){
+
+                return res.status(200).json({
+                    data: {
+                        comment: comment
+                    },
+                    message: "Comment created!"
+                });
+
+            }
+
+            req.flash('success', 'Comment Published!');
             res.redirect('/');
 
         }
 
     }catch(error) {
-        console.log("Error(system) in finding the post in the Post schema");
-    };
+        // console.log("Error(system) in finding the post in the Post schema");
+        console.log("Error: " + error);
+
+        return res.status(500).json({
+            error: "Internal server error"
+        });
+    }
 }
 
 
