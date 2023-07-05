@@ -6,6 +6,11 @@ const usersController = require('../controllers/users_controller');
 const homeController = require('../controllers/home_controller');
 const postsController = require('../controllers/posts_controller');
 const commentsController = require('../controllers/comments_controller');
+const likesController = require('../controllers/likes_controller');
+
+// router.post('/likes/toggle', likesController.toggleLike);
+
+router.use('/likes', require('./likes'));
 
 router.get('/', homeController.home);
 

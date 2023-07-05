@@ -1,5 +1,6 @@
 const Post = require('../models/post');
 const Comment = require('../models/comment');
+const Like = require('../models/like');
 
 module.exports.createPost = async function(req, res){
 
@@ -11,6 +12,9 @@ module.exports.createPost = async function(req, res){
         });
 
         if(req.xhr){  //as the type of AJAX req is XMLHTTP Req(ie. XHR)
+
+            post = await post.populate('user', 'name').execPopulate(); //this might throw an error changed on 5th July'23
+
             return res.status(200).json({
                 data: {
                     post: post
@@ -37,6 +41,10 @@ module.exports.destroy = async function(req, res){
 
         //instead of ._id here we use id as mongoose automatically converts ._id to id making it easy to compare string==string; .id means converting the obeject to string
         if(post.user.equals(req.user.id)){
+
+            await Like.deleteMany({likeable: post, onModel: 'Post'});
+            await Like.deleteMany({_id: {$in: post.comments}});
+
             post.deleteOne();
 
             await Comment.deleteMany({post: req.params.id});
