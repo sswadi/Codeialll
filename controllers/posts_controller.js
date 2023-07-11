@@ -3,9 +3,7 @@ const Comment = require('../models/comment');
 const Like = require('../models/like');
 
 module.exports.createPost = async function(req, res){
-
     try{
-
         let post = await Post.create({
             content: req.body.content,
             user: req.user
@@ -29,9 +27,7 @@ module.exports.createPost = async function(req, res){
     }catch(err){
         req.flash('error', err);
         return res.redirect('back');
-    }
-   
-   
+    }  
 }
 
 module.exports.destroy = async function(req, res){
@@ -42,6 +38,7 @@ module.exports.destroy = async function(req, res){
         //instead of ._id here we use id as mongoose automatically converts ._id to id making it easy to compare string==string; .id means converting the obeject to string
         if(post.user.equals(req.user.id)){
 
+            // CHANGE(likes controller) :: delete the associated likes for the post and all its comments' likes too
             await Like.deleteMany({likeable: post, onModel: 'Post'});
             await Like.deleteMany({_id: {$in: post.comments}});
 

@@ -42,6 +42,7 @@
 
     //method to create a post in DOM
     let newPostDom = function(post){
+        // CHANGE :: show the count of zero likes on this post
         return $(`<li id="post-${post._id}">
         <p>
                 <small>
@@ -54,7 +55,7 @@
                 NAME: ${ post.user.name }
             </small>
 
-            // ::
+            // CHANGE:: Whenever we add/create a new post, it should show 0 likess
 
             <small>
                             
@@ -68,7 +69,7 @@
         </p>
        <div class="post-comments">
             
-                <form action="/comments/create" method="post">
+                <form id="post-${ post._id }-comments-form" action="/comments/create" method="post">
                     <input type="text" name="content" placeholder="Type here to add comment..." required>
                      <input type="hidden" name="post" value="${ post._id }">
                     <input type="submit" value="Add Comment">

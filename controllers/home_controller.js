@@ -1,9 +1,12 @@
 const Post = require('../models/post');
 const User = require('../models/user');
 
+
+
 module.exports.home = async function(req,res){
 
     try{
+        // CHANGE(likes controller):: populate the likes of each post and comment
         let posts = await Post.find({})
         .sort('-createdAt')
         .populate('user')

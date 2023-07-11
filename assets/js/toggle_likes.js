@@ -5,9 +5,8 @@ class ToggleLike{
         this.toggleLike();
     }
 
-
     toggleLike(){
-        $(this.toggler).click(function(e){
+        $(this.toggler).click((e) => {
             e.preventDefault();
             let self = this;
 
@@ -26,7 +25,6 @@ class ToggleLike{
                     likesCount += 1;
                 }
 
-
                 $(self).attr('data-likes', likesCount);
                 $(self).html(`${likesCount} Likes`);
 
@@ -35,7 +33,6 @@ class ToggleLike{
                 console.log('error in completing the request');
             });
             
-
         });
     }
 }
