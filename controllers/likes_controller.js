@@ -4,7 +4,9 @@ const Post = require('../models/post');
 const Like = require('../models/like');
 
 module.exports.toggleLike = async function(req, res){
+
     console.log("*********THIS IS LIKES CONTROLLER******");
+
     try{
 
         // likes/toggle/?id=abcdef&type=Post
@@ -16,7 +18,7 @@ module.exports.toggleLike = async function(req, res){
         }else{
             likeable = await Comment.findById(req.query.id).populate('likes');
         }
-
+        
         //check if a like already exists
         let existingLike = await Like.findOne({
             likeable: req.query.id,
@@ -42,19 +44,22 @@ module.exports.toggleLike = async function(req, res){
             likeable.save();
         }
 
-        return res.status(200).json({
-            message: 'Request Successful!',
-            data: {
-                deleted: deleted
-            }
-        });
+        // return res.status(200).json({
+        //     message: 'Request Successful!',
+        //     data: {
+        //         deleted: deleted
+        //     }
+        // });
+        res.redirect('back');
 
     }
     catch(err){
 
-        return res.status(500).json({
-            message: 'Internal Server Error',
-        });
+        // return res.status(500).json({
+        //     message: 'Internal Server Error',
+        // });
+
+        console.log("error in likes_controller", +err.message);
 
     }
 }

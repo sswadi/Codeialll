@@ -28,7 +28,7 @@ class PostComments{
             let self = this;
 
             $.ajax({
-                type: 'post',
+                type: 'POST',
                 url: '/comments/create',
                 data: $(self).serialize(),
                 success: function(data){

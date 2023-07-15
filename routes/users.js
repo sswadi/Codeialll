@@ -9,6 +9,9 @@ const commentsController = require('../controllers/comments_controller');
 const likesController = require('../controllers/likes_controller');
 const { route } = require('./api');
 
+
+router.get('/likes/toggle', likesController.toggleLike);
+
 // router.use('/likes', require('./likes'));
 
 router.get('/', homeController.home);
@@ -46,6 +49,6 @@ router.use('/api', require('./api'));
 router.get('/auth/google', passport.authenticate('google', {scope: ['profile', 'email']}));
 router.get('/auth/google/callback', passport.authenticate('google', {failureRedirect: '/sign_in'}), usersController.createSession);
 
-router.post('/likes/toggle/', likesController.toggleLike);
+
 
 module.exports = router;
