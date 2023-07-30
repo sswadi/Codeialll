@@ -4,6 +4,7 @@ const app = express();
 const port = 8000;
 const expressLayouts = require('express-ejs-layouts'); //requrining ejs layouts for partials and layouts
 const db = require('./config/mongoose');
+const cors = require('cors');
 
 const session = require('express-session'); // express-session is a lib used to encrypt user id into cookies
 const passport = require('passport'); //a middleware and lib used for authetication purposes
@@ -18,6 +19,13 @@ const MongoStore= require('connect-mongo'); //used to store the session cookie i
 //setting up the flash middleware for custom msgs(pop ups)
 const flash = require('connect-flash'); 
 const customMware = require('./config/middleware'); //custom middleware created by us to tranfer the req msg to res 
+
+app.use(cors());
+//for socket.io
+const chatServer = require('http').Server(app);
+const chatSockets = require('./config/chat_sockets').chatSockets(chatServer); //settig up file and passing chatServer(created on line 23) to it
+chatServer.listen(5000);
+console.log('chat server is listening on port 5000');
 
 // app.use(sassMiddleware({
 //     src: './assets/scss',

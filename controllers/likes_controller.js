@@ -5,8 +5,6 @@ const Like = require('../models/like');
 
 module.exports.toggleLike = async function(req, res){
 
-    console.log("*********THIS IS LIKES CONTROLLER******");
-
     try{
 
         // likes/toggle/?id=abcdef&type=Post
@@ -18,7 +16,7 @@ module.exports.toggleLike = async function(req, res){
         }else{
             likeable = await Comment.findById(req.query.id).populate('likes');
         }
-        
+
         //check if a like already exists
         let existingLike = await Like.findOne({
             likeable: req.query.id,
@@ -30,7 +28,7 @@ module.exports.toggleLike = async function(req, res){
         if(existingLike){
             likeable.likes.pull(existingLike._id); //  pulling out from Post/Comments schema
             await likeable.save();
-            await existingLike.remove(); //also deleting it from the Like schema
+            await existingLike.deleteOne(); //also deleting it from the Like schema
             deleted = true;
 
         }else{
@@ -40,6 +38,7 @@ module.exports.toggleLike = async function(req, res){
                 likeable: req.query.id,
                 onModel: req.query.type,
             });
+
             likeable.likes.push(newLike._id);
             likeable.save();
         }

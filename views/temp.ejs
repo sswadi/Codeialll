@@ -1,0 +1,126 @@
+<link rel="stylesheet" href="/css/home.css">
+
+<h1><%= title %></h1>
+
+<div id="home-container">
+
+    <section id="feed-posts">
+        <h4>Posts</h4>
+    
+        <% if(locals.user){ %> 
+        <form action="/createPost" id="new-post-form" method="POST">
+            <textarea name="content" cols="30" rows="3" placeholder="Type here.." required></textarea>
+            <input type="submit" value="Create Post">
+        </form>
+        <% } %>
+    
+        <div id="posts-list-container">
+            <ul>
+                <% for(post of posts){ %>
+                    
+                    <li id="post-<%= post._id %>">
+                        <p>
+                            <% if(locals.user && locals.user.id == post.user.id){ %>
+                                <small>
+                                    <a class="delete-post-button" href="/destroy/<%= post.id %>">X</a>
+                                </small>
+                            <% } %>
+                            POST:  <%= post.content %>
+                            <br>
+                            <small>
+                                NAME: <%= post.user.name %>
+                            </small>
+                    
+                            <br>
+                            <br>
+                    
+                            <!-- CHANGE :: display the likes of this post, if the user is logged in, then show the link to toggle likes, else, just show the count -->
+                            <small>
+                                <% if(locals.user){ %>
+                                    <a class="toggle-like-button" data-likes="<%= post.likes.length %>" href="/likes/toggle/?id=<%= post._id %>&type=Post">
+                                        <%= post.likes.length %> Likes
+                                    </a>
+                                <% }else{ %>
+                                    <%= post.likes.length %> Likes
+                                <% } %>
+                            </small>
+                        </p>
+                       <div class="post-comments">
+                            <% if(locals.user){ %>
+                                <!-- let's give an id to the new comment form, we'll also need to make the same changes in home_posts.js where we're adding a post to the page -->
+                                <form id="post-<%= post._id %>-comments-form" action="/comments/create" method="POST">
+                                    <input type="text" name="content" placeholder="Type here to add comment..." required>
+                                     <input type="hidden" name="post" value="<%= post._id %>">
+                                    <input type="submit" value="Add Comment">
+                                </form>
+                            <% } %>
+                            <div class="post-comments-list">
+                                <ul id="post-comments-<%= post._id %>">
+                                    <% for(comment of post.comment){ %>
+                    
+                                        <li id="comment-<%= comment._id %>">
+                                            <p>
+                                                <% if(locals.user && locals.user.id == comment.user.id){ %>
+                                                    <small>
+                                                        <a class="delete-comment-button" href="/comments/destroy/<%= comment.id %>">X</a>
+                                                    </small>
+                                                <% } %>
+                                                COMMENT: <%= comment.content %>
+                                                <br>
+                                                <small>
+                                                   NAME: <%= comment.user.name %>
+                                                </small>
+                                                <!-- :: -->
+                                                <small>
+                                                    <% if(locals.user){ %>
+                                                        <a class="toggle-like-button" data-likes="<%= comment.likes.length %>" href="/likes/toggle/?id=<%= comment._id %>&type=Comment">
+                                                            <%= comment.likes.length %> Likes
+                                                        </a>
+                                        
+                                                    <% }else{ %>
+                                                        <%= comment.likes.length %> Likes
+                                                    <% } %>
+                                        
+                                                </small>
+                                            </p>
+                                        </li>
+                                        
+                                    <% } %>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                    
+    
+                <% } %>
+            </ul>
+        </div>
+    </section>
+    
+    <section id="user-friends">
+        <h4>FRIENDS</h4>
+        <% for(u of all_users){ %>
+            <p>
+                <a href="/profile/<%= u.id %>"><%= u.name %></a>
+            </p>
+        <% } %>
+    
+    </section>
+
+</div>
+
+<!-- importing this script for creating the comments -->
+
+<script src="../assets/js/home_post_comments.js"></script>
+<script src="../assets/js/home_posts.js"></script>
+
+
+<!-- CHANGE :: import the script file for toggle likes, also run it over for the already present posts and comments on the page -->
+<script src="../assets/js/toggle_likes.js"></script>
+<script>
+    $('.toggle-like-button').each(function(){
+        let self = this;
+        let toggleLike = new ToggleLike(self);
+    });
+</script>
+

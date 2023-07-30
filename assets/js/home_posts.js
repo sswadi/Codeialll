@@ -130,6 +130,6 @@
     }
 
     createPost();
-    convertPostsToAjax();s
+    convertPostsToAjax();
 }
 
